@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/mainColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <LinearLayout android:id="@+id/head_title"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+    <ImageView
+        android:layout_marginStart="10dp"
+        android:id="@+id/logoImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo"
+        tools:layout_editor_absoluteX="14dp"
+         />
+
+    <TextView android:id="@+id/logoName"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/logoImage"
+        android:layout_height="60dp"
+        android:layout_width="70dp"
+        tools:ignore="MissingConstraints"
+        android:text="QuizLand"
+        android:textColor="@color/white"
+
+        android:paddingTop="19dp"/>
+
+
+    <SearchView
+        android:id="@+id/Serch"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/search_view_bg"
+        app:layout_constraintStart_toEndOf="@+id/logoName"
+        android:layout_marginTop="16dp"
+        tools:ignore="MissingConstraints"
+        />
+
+        <ImageView android:id="@+id/imageAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="35dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/description_view"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/head_title">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="50dp"
+            android:id="@+id/go_view"
+            android:layout_width="300dp"
+            android:layout_height="325dp"
+            android:background="@drawable/title_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/description_view"
+            app:layout_constraintEnd_toEndOf="@+id/description_view"
+            app:layout_constraintStart_toStartOf="@+id/description_view"
+            app:layout_constraintTop_toTopOf="@+id/description_view">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/go_view"
+                android:layout_marginTop="25dp"
+                android:gravity="center_horizontal"
+                android:text="Проверь\nсвои знания\nсегодня!"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/go_view"
+                app:layout_constraintStart_toStartOf="@+id/go_view"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/go_view"
+                app:layout_constraintStart_toStartOf="@+id/go_view"
+                android:lineSpacingMultiplier="1.3"
+                android:text="Ежедневные викторины,\nсоревнования с друьями и\n уникальные категории.\nНайди свой челендж!"
+                android:textColor="@color/grey"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/button_bg"
+                android:text="Начать тест"
+                app:layout_constraintEnd_toEndOf="@+id/go_view"
+                app:layout_constraintStart_toStartOf="@+id/go_view"
+                app:layout_constraintTop_toBottomOf="@id/description">
+
+            </Button>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toBottomOf="@id/description_view"
+        android:layout_width="match_parent"
+        android:layout_height="222dp">
+        <LinearLayout
+            android:id="@+id/Top_Text"
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+            <ImageView
+                android:layout_marginStart="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/TopImage"
+                />
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="В топе"
+                />
+        </LinearLayout>
+
+        <ViewFlipper android:id="@+id/View_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="187dp"
+            app:layout_constraintTop_toBottomOf="@+id/Top_Text"
+            tools:layout_editor_absoluteX="-187dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/quiz_bg"
+                app:layout_constraintStart_toStartOf="@id/View_flipper"
+                app:layout_constraintStart_toEndOf="@+id/View_flipper"
+                android:id="@+id/Cart_Quiz"
+                android:layout_width="150dp"
+                android:layout_height="150dp">
+                <TextView
+                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
+                    app:layout_constraintStart_toStartOf="@+id/Cart_Quiz"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_horizontal"
+                    android:layout_width="45dp"
+                    android:layout_height="17dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:paddingTop="2dp"
+                    android:textSize="8dp"
+                    android:text="История"
+                    android:background="@drawable/text_quiz"
+                    tools:ignore="MissingConstraints" />
+                <ImageButton android:id="@+id/start_button"
+                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz"
+                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
+                    app:layout_constraintEnd_toEndOf="@+id/Cart_Quiz"
+                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
+                    android:layout_height="40dp"
+                    android:src="@drawable/button"
+                    android:paddingStart="3dp"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/start_button"
+                    android:layout_width="40dp"
+                    />
+                <TextView android:layout_width="80dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="13dp"
+                    android:text="Древний мир: Императоры"
+                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
+                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/quiz_bg"
+                app:layout_constraintStart_toStartOf="@id/View_flipper"
+                app:layout_constraintStart_toEndOf="@+id/View_flipper"
+                android:id="@+id/Cart_Quiz"
+                android:layout_width="150dp"
+                android:layout_height="150dp">
+                <TextView
+                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
+                    app:layout_constraintStart_toStartOf="@+id/Cart_Quiz"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_horizontal"
+                    android:layout_width="45dp"
+                    android:layout_height="17dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:paddingTop="2dp"
+                    android:textSize="8dp"
+                    android:text="История"
+                    android:background="@drawable/text_quiz"
+                    tools:ignore="MissingConstraints" />
+                <ImageButton android:id="@+id/start_button"
+                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz"
+                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
+                    app:layout_constraintEnd_toEndOf="@+id/Cart_Quiz"
+                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
+                    android:layout_height="40dp"
+                    android:src="@drawable/button"
+                    android:paddingStart="3dp"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/start_button"
+                    android:layout_width="40dp"
+                    />
+                <TextView android:layout_width="80dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="13dp"
+                    android:text="Древний мир: Императоры"
+                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
+                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ViewFlipper>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
