@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/mainColor"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QuizEditorActivity">
+
+    <LinearLayout
+        android:id="@+id/quiz_head"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:layout_marginStart="15dp"
+            android:src="@drawable/back_btn"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="Отмена"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:src="@drawable/puzzle"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="QuizLand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/numb"
+        android:gravity="center_vertical"
+        android:background="#2A3550"
+        app:layout_constraintTop_toBottomOf="@+id/quiz_head"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:textColor="#6061E4"
+            android:text="1"
+            android:background="@drawable/letter_bg"
+            android:layout_width="30dp"
+            android:layout_height="30dp">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/quiz_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numb"
+        android:layout_width="350dp"
+        android:layout_height="400dp">
+
+        <LinearLayout
+            android:id="@+id/del"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <ImageView
+                android:layout_marginStart="15dp"
+                android:src="@drawable/quiz"
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="#5055C1"
+                android:text="Вопрос 1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:background="@drawable/junk_bg"
+                android:gravity="center"
+                android:layout_marginEnd="15dp"
+                android:layout_width="55dp"
+                android:layout_height="20dp">
+
+                <ImageView
+                    android:src="@drawable/junk"
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="10dp"
+                    android:textColor="#EF4444"
+                    android:text="Удалить"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <EditText
+            
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:textColor="#4D5463"
+            android:text="Введите ваш вопрос..."
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/redact_question"
+            app:layout_constraintTop_toBottomOf="@id/del"
+            android:layout_width="300dp"
+            android:layout_height="50dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

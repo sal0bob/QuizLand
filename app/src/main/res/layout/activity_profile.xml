@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/mainColor"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/head_profile"
+        android:layout_height="41dp"
+        android:layout_width="match_parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/back_img"
+            android:src="@drawable/back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+
+            android:text="Назад"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp" />
+        <ImageView
+            android:src="@drawable/puzzle"
+            android:id="@+id/logoProfile"
+            android:layout_marginStart="159dp"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="QuizLand"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:id="@+id/nameProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:elevation="10dp"
+        android:id="@+id/ProfileCart"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/profilecart_bg"
+        app:layout_constraintTop_toBottomOf="@+id/head_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="370dp"
+            android:layout_height="410dp"
+            app:layout_constraintEnd_toEndtOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/AvatarProfile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/icons_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/UserName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Алексей Смирнов"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/AvatarProfile" />
+
+            <LinearLayout
+                android:elevation="10dp"
+                android:id="@+id/winCell"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/cells_bg"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserName">
+
+                <TextView
+                    android:id="@+id/procent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="68%"
+                    android:textColor="#6366F1"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:id="@+id/win"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Победы"
+                    android:textColor="#94A3B8"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:elevation="10dp"
+                android:id="@+id/CreateCell"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/cells_bg"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/allGameCell">
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="3"
+                    android:textColor="#6366F1"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:id="@+id/Create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Создано"
+                    android:textColor="#94A3B8"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:elevation="10dp"
+                android:id="@+id/allGameCell"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/cells_bg"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserName">
+
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="142"
+                    android:textColor="#6366F1"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cellName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Игры"
+                    android:textColor="#94A3B8"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/ProfileCart"
+        android:id="@+id/MyCreate"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginStart="20dp"
+            android:src="@drawable/folder_new"
+            android:id="@+id/CreateImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Мои квизы"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MyCreate"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:elevation="10dp"
+                android:background="@drawable/myquiz_bg"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="350dp"
+                android:layout_height="75dp">
+                <TextView
+                    android:id="@+id/quiz_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textSize="17dp"
+                    android:text="История програмирования"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    />
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/play_count"
+                    android:src="@drawable/play_arrow"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/quiz_name"
+                    android:layout_marginStart="5dp"/>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toEndOf="@id/play_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textColor="#576477"
+                    app:layout_constraintTop_toBottomOf="@+id/quiz_name"
+                    android:text="1.2k игр"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
