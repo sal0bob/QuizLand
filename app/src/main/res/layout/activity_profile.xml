@@ -18,12 +18,15 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/back_img"
             android:src="@drawable/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-
+            android:id="@+id/closeProfile"
+            android:clickable="true"
+            android:enabled="true"
             android:text="Назад"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -62,8 +65,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="370dp"
             android:layout_height="410dp"
-            app:layout_constraintEnd_toEndtOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+
+            >
 
             <ImageView
                 android:id="@+id/AvatarProfile"
@@ -214,9 +217,16 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20dp"
-
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="25dp" />
+        <ImageView
+            android:id="@+id/add"
+            android:clickable="true"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout

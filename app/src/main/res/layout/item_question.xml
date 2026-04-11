@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="15dp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/quiz_bg"
+    android:padding="15dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:hint="Введите вопрос"
+        android:id="@+id/question"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/addAnswer"
+        android:layout_marginTop="15dp"
+        android:text="Добавить ответ"
+        android:backgroundTint="@color/buttonColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RadioGroup
+        android:id="@+id/answersRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/dellQuestion"
+        android:layout_marginTop="15dp"
+        android:text="Удалить вопрос"
+        android:backgroundTint="@color/buttonColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
