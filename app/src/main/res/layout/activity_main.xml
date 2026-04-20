@@ -10,11 +10,12 @@
     <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:id="@+id/head_title"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
     <ImageView
+        android:layout_marginStart="15dp"
         android:id="@+id/logoImage"
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -38,22 +39,24 @@
 
 
     <SearchView
+        android:layout_weight="1"
         android:id="@+id/Serch"
         android:layout_width="150dp"
         android:layout_height="35dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:background="@drawable/search_view_bg"
         app:layout_constraintStart_toEndOf="@+id/logoName"
         tools:ignore="MissingConstraints"
         />
 
         <ImageView
+            android:layout_marginStart="15dp"
             android:clickable="true"
             android:src="@drawable/icons_bg"
             android:id="@+id/imageAvatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="35dp"
+            android:layout_marginEnd="15dp"
             />
     </LinearLayout>
 

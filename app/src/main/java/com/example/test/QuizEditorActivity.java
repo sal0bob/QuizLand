@@ -1,5 +1,6 @@
 package com.example.test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,14 @@ import org.json.JSONObject;
 
 public class QuizEditorActivity extends AppCompatActivity {
 
+    private static final String KEY_QUIZZES = "QUIZZES_LIST";
+
+    private long currentQuizId = -1;
+
+    private static final String KEY_QUIZ_COUNT = "QUIZ_COUNT";
+
+    private int countCreate;
+
     private int selectedQuestionIndex = -1;
 
     private LinearLayout questionsContainer;
@@ -32,18 +41,20 @@ public class QuizEditorActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
     private static final String PREF_NAME = "QUIZ_STORAGE";
-    private static final String KEY_QUIZ = "QUIZ_JSON";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.quiz_editor);
+        currentQuizId = getIntent().getLongExtra("quizId", -1);
 
         ImageView closeEditorImg = findViewById(R.id.closeEditorImg);
         closeEditorImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
@@ -52,6 +63,7 @@ public class QuizEditorActivity extends AppCompatActivity {
         closeEditor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
@@ -60,8 +72,12 @@ public class QuizEditorActivity extends AppCompatActivity {
         questionNumbersContainer = findViewById(R.id.questionNumbersContainer);
         scrollViewQuestions = findViewById(R.id.scrollViewQuestions);
 
+        preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        countCreate = preferences.getInt(KEY_QUIZ_COUNT, 0);
+
         btnAddQuestion = findViewById(R.id.add_question);
         btnSaveQuiz = findViewById(R.id.save_quiz);
+
 
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
@@ -151,6 +167,7 @@ public class QuizEditorActivity extends AppCompatActivity {
         try {
             JSONArray questionsArray = new JSONArray();
 
+            // собираем вопросы с экрана
             for (int i = 0; i < questionsContainer.getChildCount(); i++) {
                 View questionView = questionsContainer.getChildAt(i);
 
@@ -158,6 +175,7 @@ public class QuizEditorActivity extends AppCompatActivity {
                 RadioGroup answersGroup = questionView.findViewById(R.id.answersRadioGroup);
 
                 String questionText = etQuestion.getText().toString().trim();
+
                 if (questionText.isEmpty()) continue;
 
                 JSONObject questionObj = new JSONObject();
@@ -169,10 +187,11 @@ public class QuizEditorActivity extends AppCompatActivity {
                 for (int j = 0; j < answersGroup.getChildCount(); j++) {
                     View answerView = answersGroup.getChildAt(j);
 
-                    RadioButton rbCorrect = answerView.findViewById(R.id.radioCorrect);
                     EditText etAnswer = answerView.findViewById(R.id.answer);
+                    RadioButton rbCorrect = answerView.findViewById(R.id.radioCorrect);
 
                     String answerText = etAnswer.getText().toString().trim();
+
                     if (answerText.isEmpty()) continue;
 
                     answersArray.put(answerText);
@@ -182,27 +201,93 @@ public class QuizEditorActivity extends AppCompatActivity {
                     }
                 }
 
+                // проверка: минимум 2 ответа
+                if (answersArray.length() < 2) continue;
+
                 questionObj.put("answers", answersArray);
                 questionObj.put("correctIndex", correctIndex);
 
                 questionsArray.put(questionObj);
             }
 
-            preferences.edit().putString(KEY_QUIZ, questionsArray.toString()).apply();
+            if (questionsArray.length() == 0) {
+                Toast.makeText(this, "Добавьте хотя бы один вопрос с ответами!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // создаём объект квиза
+            JSONObject currentQuiz = new JSONObject();
+
+            if (currentQuizId == -1) {
+                currentQuizId = System.currentTimeMillis();
+            }
+
+            currentQuiz.put("id", currentQuizId);
+            currentQuiz.put("questions", questionsArray);
+
+            // загружаем список квизов
+            String allQuizzesJson = preferences.getString(KEY_QUIZZES, "[]");
+            JSONArray allQuizzesArray = new JSONArray(allQuizzesJson);
+
+            // если редактируем квиз - удаляем старый по id
+            boolean isUpdated = false;
+            for (int i = 0; i < allQuizzesArray.length(); i++) {
+                JSONObject quizObj = allQuizzesArray.getJSONObject(i);
+                if (quizObj.getLong("id") == currentQuizId) {
+                    allQuizzesArray.remove(i);
+                    isUpdated = true;
+                    break;
+                }
+            }
+
+            // если новый квиз - делаем новое имя
+            if (!isUpdated) {
+                currentQuiz.put("title", "Квиз #" + (allQuizzesArray.length() + 1));
+            } else {
+                // если обновление - сохраняем старое название
+                currentQuiz.put("title", "Квиз (обновлён)");
+            }
+
+            // добавляем квиз в массив
+            allQuizzesArray.put(currentQuiz);
+
+            // сохраняем обратно
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(KEY_QUIZZES, allQuizzesArray.toString());
+            editor.putInt(KEY_QUIZ_COUNT, allQuizzesArray.length());
+            editor.apply();
 
             Toast.makeText(this, "Квиз сохранён!", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
-            Toast.makeText(this, "Ошибка сохранения: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     private void loadQuizLocally() {
         try {
-            String json = preferences.getString(KEY_QUIZ, null);
-            if (json == null) return;
+            // если quizId == -1 значит создаём новый квиз, ничего не грузим
+            if (currentQuizId == -1) return;
 
-            JSONArray questionsArray = new JSONArray(json);
+            String allQuizzesJson = preferences.getString(KEY_QUIZZES, "[]");
+            JSONArray allQuizzesArray = new JSONArray(allQuizzesJson);
+
+            JSONObject quizObj = null;
+
+            for (int i = 0; i < allQuizzesArray.length(); i++) {
+                JSONObject temp = allQuizzesArray.getJSONObject(i);
+                if (temp.getLong("id") == currentQuizId) {
+                    quizObj = temp;
+                    break;
+                }
+            }
+
+            if (quizObj == null) {
+                Toast.makeText(this, "Квиз не найден!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            JSONArray questionsArray = quizObj.getJSONArray("questions");
 
             questionsContainer.removeAllViews();
 
@@ -235,7 +320,7 @@ public class QuizEditorActivity extends AppCompatActivity {
 
                     RadioButton rbCorrect = answerView.findViewById(R.id.radioCorrect);
                     EditText etAnswer = answerView.findViewById(R.id.answer);
-                    Button btnDeleteAnswer = answerView.findViewById(R.id.dellAnswer);
+                    ImageButton btnDeleteAnswer = answerView.findViewById(R.id.dellAnswer);
 
                     etAnswer.setText(answersArray.getString(j));
 
@@ -250,6 +335,8 @@ public class QuizEditorActivity extends AppCompatActivity {
 
                 questionsContainer.addView(questionView);
             }
+
+            updateQuestionNumbers();
 
         } catch (Exception e) {
             Toast.makeText(this, "Ошибка загрузки: " + e.getMessage(), Toast.LENGTH_LONG).show();

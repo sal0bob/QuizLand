@@ -48,12 +48,13 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:text="QuizLand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="15dp"/>
 
     </LinearLayout>
 
@@ -83,6 +84,18 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/search_view_bg"
+        android:layout_width="355dp"
+        android:layout_height="55dp">
+        <EditText
+            android:background="@null"
+            android:hint="Введите название квиза"
+            android:layout_width="330dp"
+            android:layout_height="40dp"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_question"

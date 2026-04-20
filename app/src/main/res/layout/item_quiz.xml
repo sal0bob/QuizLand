@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/item_quiz_bg">
+
+    <TextView
+        android:id="@+id/quizTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Название квиза"
+        android:textColor="#6366F1"
+        android:textSize="18sp" />
+
+
+    <ImageButton
+        android:src="@drawable/check_blue"
+        android:background="#806366F1"
+        android:id="@+id/applyButton"
+        android:layout_width="39dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="10dp"/>
+
+    <ImageButton
+        android:id="@+id/btnDeleteQuiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/junk"
+        android:backgroundTint="#80F44336" />
+</LinearLayout>
