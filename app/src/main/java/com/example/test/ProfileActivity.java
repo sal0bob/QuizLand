@@ -132,7 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
             preferences.edit().putString(KEY_QUIZZES, quizzesArray.toString()).apply();
 
             Toast.makeText(this, "Квиз удалён!", Toast.LENGTH_SHORT).show();
-            loadQuizzes(); // обновляем список на экране
+            loadQuizzes();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadQuizzes();
 
-        // обновляем счётчик
+
         int countCreate = preferences.getInt("QUIZ_COUNT", 0);
         TextView count = findViewById(R.id.num);
         count.setText(String.valueOf(countCreate));

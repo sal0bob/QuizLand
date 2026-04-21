@@ -136,7 +136,7 @@ public class QuizEditorActivity extends AppCompatActivity {
 
             tvNumber.setText(String.valueOf(i + 1));
 
-            // подсветка выбранного
+
             if (index == selectedQuestionIndex) {
                 tvNumber.setBackgroundResource(R.drawable.bg_question_number_selected);
             } else {
@@ -167,7 +167,7 @@ public class QuizEditorActivity extends AppCompatActivity {
         try {
             JSONArray questionsArray = new JSONArray();
 
-            // собираем вопросы с экрана
+
             for (int i = 0; i < questionsContainer.getChildCount(); i++) {
                 View questionView = questionsContainer.getChildAt(i);
 
@@ -201,7 +201,7 @@ public class QuizEditorActivity extends AppCompatActivity {
                     }
                 }
 
-                // проверка: минимум 2 ответа
+
                 if (answersArray.length() < 2) continue;
 
                 questionObj.put("answers", answersArray);
@@ -215,7 +215,7 @@ public class QuizEditorActivity extends AppCompatActivity {
                 return;
             }
 
-            // создаём объект квиза
+
             JSONObject currentQuiz = new JSONObject();
 
             if (currentQuizId == -1) {
@@ -225,11 +225,11 @@ public class QuizEditorActivity extends AppCompatActivity {
             currentQuiz.put("id", currentQuizId);
             currentQuiz.put("questions", questionsArray);
 
-            // загружаем список квизов
+
             String allQuizzesJson = preferences.getString(KEY_QUIZZES, "[]");
             JSONArray allQuizzesArray = new JSONArray(allQuizzesJson);
 
-            // если редактируем квиз - удаляем старый по id
+
             boolean isUpdated = false;
             for (int i = 0; i < allQuizzesArray.length(); i++) {
                 JSONObject quizObj = allQuizzesArray.getJSONObject(i);
@@ -240,18 +240,18 @@ public class QuizEditorActivity extends AppCompatActivity {
                 }
             }
 
-            // если новый квиз - делаем новое имя
+
             if (!isUpdated) {
                 currentQuiz.put("title", "Квиз #" + (allQuizzesArray.length() + 1));
             } else {
-                // если обновление - сохраняем старое название
+
                 currentQuiz.put("title", "Квиз (обновлён)");
             }
 
-            // добавляем квиз в массив
+
             allQuizzesArray.put(currentQuiz);
 
-            // сохраняем обратно
+
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(KEY_QUIZZES, allQuizzesArray.toString());
             editor.putInt(KEY_QUIZ_COUNT, allQuizzesArray.length());
@@ -266,7 +266,7 @@ public class QuizEditorActivity extends AppCompatActivity {
 
     private void loadQuizLocally() {
         try {
-            // если quizId == -1 значит создаём новый квиз, ничего не грузим
+
             if (currentQuizId == -1) return;
 
             String allQuizzesJson = preferences.getString(KEY_QUIZZES, "[]");
