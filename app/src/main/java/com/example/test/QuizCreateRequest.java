@@ -7,5 +7,5 @@ public class QuizCreateRequest {
     public String description;
     public String preview;
     public Long creator;
-    public java.util.List<QuizPageRequest> pages;
+    public List<QuizPageRequest> pages;
 }

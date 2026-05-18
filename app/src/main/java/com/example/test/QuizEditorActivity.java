@@ -38,6 +38,7 @@ public class QuizEditorActivity extends AppCompatActivity {
     private ScrollView scrollViewQuestions;
 
     private Button btnAddQuestion, btnSaveQuiz;
+    private EditText editQuizTitle;
 
     private SharedPreferences preferences;
     private static final String PREF_NAME = "QUIZ_STORAGE";
@@ -77,6 +78,7 @@ public class QuizEditorActivity extends AppCompatActivity {
 
         btnAddQuestion = findViewById(R.id.add_question);
         btnSaveQuiz = findViewById(R.id.save_quiz);
+        editQuizTitle = findViewById(R.id.editQuizTitle);
 
 
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -241,12 +243,13 @@ public class QuizEditorActivity extends AppCompatActivity {
             }
 
 
-            if (!isUpdated) {
-                currentQuiz.put("title", "Квиз #" + (allQuizzesArray.length() + 1));
-            } else {
+            String quizTitle = editQuizTitle.getText().toString().trim();
 
-                currentQuiz.put("title", "Квиз (обновлён)");
+            if (quizTitle.isEmpty()) {
+                quizTitle = "Квиз #" + (allQuizzesArray.length() + 1);
             }
+
+            currentQuiz.put("title", quizTitle);
 
 
 
@@ -288,6 +291,7 @@ public class QuizEditorActivity extends AppCompatActivity {
                 Toast.makeText(this, "Квиз не найден!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            editQuizTitle.setText(quizObj.optString("title", ""));
 
             JSONArray questionsArray = quizObj.getJSONArray("questions");
 

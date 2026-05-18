@@ -3,31 +3,28 @@ package com.example.test;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.test.models.OptionRequest;
-import com.google.android.material.button.MaterialButton;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
 import java.util.LinkedHashMap;
 
 import okhttp3.ResponseBody;
@@ -36,6 +33,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private boolean isLoadingProfile = false;
 
     private static final String PREF_NAME = "QUIZ_STORAGE";
     private static final String KEY_QUIZZES = "QUIZZES_LIST";
@@ -106,8 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView count = findViewById(R.id.num);
         count.setText(String.valueOf(countCreate));
 
-        loadProfileFromServer();
-
+        refreshQuizzesList();
 
     }
 
@@ -183,8 +181,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void loadQuizzes() {
-        quizzesContainer.removeAllViews();
+    private void loadLocalQuizzesWithoutClear() {
 
         try {
             String json = preferences.getString(KEY_QUIZZES, "[]");
@@ -199,6 +196,12 @@ public class ProfileActivity extends AppCompatActivity {
 
             for (int i = 0; i < quizzesArray.length(); i++) {
                 JSONObject quizObj = quizzesArray.getJSONObject(i);
+
+                boolean isPublished = quizObj.optBoolean("published", false);
+
+                if (isPublished) {
+                    continue;
+                }
 
                 final long quizId = quizObj.getLong("id");
                 String title = quizObj.getString("title");
@@ -223,14 +226,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 // опубликовать квиз
                 btnPublish.setOnClickListener(v -> {
-                    new androidx.appcompat.app.AlertDialog.Builder(ProfileActivity.this)
-                            .setTitle("Публикация квиза")
-                            .setMessage("Вы уверены, что хотите опубликовать квиз? Он станет доступен всем пользователям.")
-                            .setPositiveButton("Опубликовать", (dialog, which) -> {
-                                publishQuizToServer(quizId);
-                            })
-                            .setNegativeButton("Отмена", null)
-                            .show();
+                    Intent intent = new Intent(ProfileActivity.this, PublishQuizActivity.class);
+                    intent.putExtra("quizId", quizId);
+                    startActivity(intent);
                 });
 
                 quizzesContainer.addView(quizView);
@@ -242,7 +240,27 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    private String createDefaultJpgBase64() {
+        Bitmap bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
 
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        canvas.drawRect(0, 0, 300, 300, paint);
+
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(36f);
+        paint.setAntiAlias(true);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("QuizLand", 150, 150, paint);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+
+        byte[] bytes = outputStream.toByteArray();
+
+        return Base64.encodeToString(bytes, Base64.NO_WRAP);
+    }
 
 
     private void deleteQuiz(long quizId) {
@@ -262,7 +280,7 @@ public class ProfileActivity extends AppCompatActivity {
             preferences.edit().putString(KEY_QUIZZES, quizzesArray.toString()).apply();
 
             Toast.makeText(this, "Квиз удалён!", Toast.LENGTH_SHORT).show();
-            loadQuizzes();
+            refreshQuizzesList();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -270,111 +288,118 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void publishQuizToServer(long quizId) {
-        try {
-            String json = preferences.getString(KEY_QUIZZES, "[]");
-            JSONArray quizzesArray = new JSONArray(json);
 
-            JSONObject quizObj = null;
+    private void deletePublishedQuiz(long quizId) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Удаление квиза")
+                .setMessage("Удалить опубликованный квиз с сервера?")
+                .setPositiveButton("Удалить", (dialog, which) -> {
+                    ApiService api = ApiClient.getClient().create(ApiService.class);
 
-            for (int i = 0; i < quizzesArray.length(); i++) {
-                JSONObject temp = quizzesArray.getJSONObject(i);
-                if (temp.getLong("id") == quizId) {
-                    quizObj = temp;
-                    break;
-                }
-            }
+                    api.deleteQuizFromServer(quizId).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            Log.d("DELETE_QUIZ", "CODE: " + response.code());
 
-            if (quizObj == null) {
-                Toast.makeText(this, "Квиз не найден!", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                            try {
+                                if (response.isSuccessful()) {
+                                    String body = response.body() != null
+                                            ? response.body().string()
+                                            : "empty body";
 
-            String title = quizObj.getString("title");
-            JSONArray questionsArray = quizObj.getJSONArray("questions");
+                                    Log.d("DELETE_QUIZ", "SUCCESS: " + body);
 
-            // ⚠️ пока заглушка (потом будет реальный id пользователя)
-            long userId = 1;
+                                    Toast.makeText(
+                                            ProfileActivity.this,
+                                            "Квиз удалён с сервера",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
 
-            java.util.ArrayList<QuizPageRequest> pages = new java.util.ArrayList<>();
+                                    refreshQuizzesList();
 
-            for (int i = 0; i < questionsArray.length(); i++) {
-                JSONObject questionObj = questionsArray.getJSONObject(i);
+                                } else {
+                                    String error = response.errorBody() != null
+                                            ? response.errorBody().string()
+                                            : "empty error";
 
-                String questionText = questionObj.getString("question");
-                JSONArray answersArray = questionObj.getJSONArray("answers");
-                int correctIndex = questionObj.getInt("correctIndex");
+                                    Log.d("DELETE_QUIZ", "ERROR BODY: " + error);
 
-                QuizPageRequest page = new QuizPageRequest();
-                page.question = questionText;
-                page.imageUrl = null;
-                page.options = new LinkedHashMap<>();
-
-                for (int j = 0; j < answersArray.length(); j++) {
-                    String answerText = answersArray.getString(j);
-
-                    // true если правильный, false если нет
-                    page.options.put(answerText, j == correctIndex);
-                }
-
-                pages.add(page);
-            }
-
-            QuizCreateRequest request = new QuizCreateRequest();
-            request.title = title;
-            request.description = "Описание отсутствует";
-            request.creator = userId;
-
-            // ⚠️ сервер может ожидать preview_url
-            request.preview = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+X2Z8AAAAASUVORK5CYII=";
-            request.pages = pages;
-
-            ApiService apiService = ApiClient.getClient().create(ApiService.class);
-
-            apiService.createQuiz(request).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-
-                    Log.d("SERVER", "CODE: " + response.code());
-
-                    if (response.isSuccessful()) {
-                        Log.d("SERVER", "SUCCESS: " + response.body());
-                    } else {
-                        try {
-                            Log.d("SERVER", "ERROR: " + response.errorBody().string());
-                        } catch (Exception e) {
-                            Log.d("SERVER", "ERROR BODY READ FAILED");
+                                    Toast.makeText(
+                                            ProfileActivity.this,
+                                            "Ошибка удаления: " + response.code(),
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                }
+                            } catch (Exception e) {
+                                Log.e("DELETE_QUIZ", "Ошибка чтения ответа", e);
+                            }
                         }
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("SERVER", "FAIL: " + t.getMessage());
-                }
-            });
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("DELETE_QUIZ", "onFailure", t);
 
-        } catch (Exception e) {
-            Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+                            Toast.makeText(
+                                    ProfileActivity.this,
+                                    "Ошибка сети: " + t.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    });
+                })
+                .setNegativeButton("Отмена", null)
+                .show();
     }
 
-    private void showQuizzesFromServer(java.util.List<com.example.test.models.QuizResponse> quizzes) {
-
-
+    private void showUserQuizzesFromServer(java.util.List<com.example.test.models.QuizResponse> quizzes) {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (com.example.test.models.QuizResponse quiz : quizzes) {
-
             View quizView = inflater.inflate(R.layout.item_quiz, quizzesContainer, false);
 
             TextView quizTitle = quizView.findViewById(R.id.quizTitle);
             ImageButton btnDeleteQuiz = quizView.findViewById(R.id.btnDeleteQuiz);
+            ImageButton btnPublish = quizView.findViewById(R.id.btnPublish);
 
-            quizTitle.setText(quiz.title);
+            quizTitle.setText(quiz.title != null ? quiz.title : "Квиз без названия");
+
+            // Серверный квиз уже опубликован, поэтому галочку скрываем
+            btnPublish.setVisibility(View.GONE);
+
+            // Открыть серверный квиз для прохождения
+            quizTitle.setOnClickListener(v -> {
+                Intent intent = new Intent(ProfileActivity.this, QuizActivity.class);
+                intent.putExtra("QUIZ_ID", quiz.id);
+                startActivity(intent);
+            });
+
+            // Удалить серверный квиз
+            btnDeleteQuiz.setOnClickListener(v -> {
+                if (quiz.id != null) {
+                    deletePublishedQuiz(quiz.id);
+                } else {
+                    Toast.makeText(
+                            ProfileActivity.this,
+                            "Ошибка: id квиза не найден",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            });
 
             quizzesContainer.addView(quizView);
         }
+    }
+    private void refreshQuizzesList() {
+        if (isLoadingProfile) {
+            return;
+        }
+
+        isLoadingProfile = true;
+
+        quizzesContainer.removeAllViews();
+
+        loadLocalQuizzesWithoutClear();
+        loadProfileFromServer();
     }
 
     private void loadProfileFromServer() {
@@ -394,6 +419,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(retrofit2.Call<com.example.test.models.UserResponse> call,
                                    retrofit2.Response<com.example.test.models.UserResponse> response) {
 
+                isLoadingProfile = false;
+
                 if (response.isSuccessful() && response.body() != null) {
 
                     com.example.test.models.UserResponse user = response.body();
@@ -402,7 +429,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     // квизы пользователя с сервера
                     if (user.quizzes != null) {
-                        showQuizzesFromServer(user.quizzes);
+                        showUserQuizzesFromServer(user.quizzes);
                     }
 
                 } else {
@@ -414,6 +441,9 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(retrofit2.Call<com.example.test.models.UserResponse> call, Throwable t) {
+
+                isLoadingProfile = false;
+
                 Toast.makeText(ProfileActivity.this,
                         "Ошибка сети: " + t.getMessage(),
                         Toast.LENGTH_LONG).show();
@@ -426,9 +456,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadQuizzes();
-        loadProfileFromServer();
 
+        refreshQuizzesList();
 
         int countCreate = preferences.getInt("QUIZ_COUNT", 0);
         TextView count = findViewById(R.id.num);

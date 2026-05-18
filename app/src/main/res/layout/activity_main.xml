@@ -40,7 +40,7 @@
 
     <SearchView
         android:layout_weight="1"
-        android:id="@+id/Serch"
+        android:id="@+id/Search"
         android:layout_width="150dp"
         android:layout_height="35dp"
         android:layout_marginStart="15dp"
@@ -123,7 +123,7 @@
         android:layout_marginTop="25dp"
         app:layout_constraintTop_toBottomOf="@id/go_view"
         android:layout_width="match_parent"
-        android:layout_height="222dp">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/Top_Text"
             android:layout_width="match_parent"
@@ -144,112 +144,18 @@
                 />
         </LinearLayout>
 
-        <ViewFlipper android:id="@+id/View_flipper"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="15dp"
+            android:id="@+id/quizRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="187dp"
-            app:layout_constraintTop_toBottomOf="@+id/Top_Text"
-            tools:layout_editor_absoluteX="-187dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginStart="25dp"
-                android:elevation="10dp"
-                android:background="@drawable/quiz_bg"
-                app:layout_constraintStart_toStartOf="@id/View_flipper"
-                app:layout_constraintStart_toEndOf="@+id/View_flipper"
-                android:id="@+id/Cart_Quiz"
-                android:layout_width="150dp"
-                android:layout_height="150dp">
-                <TextView
-                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
-                    app:layout_constraintStart_toStartOf="@+id/Cart_Quiz"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center_horizontal"
-                    android:layout_width="45dp"
-                    android:layout_height="17dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:paddingTop="2dp"
-                    android:textSize="8dp"
-                    android:text="История"
-                    android:background="@drawable/text_quiz"
-                    tools:ignore="MissingConstraints" />
-                <ImageButton
-
-                    android:id="@+id/startbutton"
-                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz"
-                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
-                    app:layout_constraintEnd_toEndOf="@+id/Cart_Quiz"
-                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
-                    android:layout_height="40dp"
-                    android:src="@drawable/button"
-                    android:onClick="goTestBtn"
-                    android:paddingStart="3dp"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/start_button"
-                    android:layout_width="40dp"
-                    />
-                <TextView android:layout_width="80dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="13dp"
-                    android:text="Древний мир: Императоры"
-                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
-                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@drawable/quiz_bg"
-                app:layout_constraintStart_toStartOf="@id/View_flipper"
-                app:layout_constraintStart_toEndOf="@+id/View_flipper"
-                android:id="@+id/Cart_Quiz"
-                android:layout_width="150dp"
-                android:layout_height="150dp">
-                <TextView
-                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
-                    app:layout_constraintStart_toStartOf="@+id/Cart_Quiz"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center_horizontal"
-                    android:layout_width="45dp"
-                    android:layout_height="17dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:paddingTop="2dp"
-                    android:textSize="8dp"
-                    android:text="История"
-                    android:background="@drawable/text_quiz"
-                    tools:ignore="MissingConstraints" />
-                <ImageButton android:id="@+id/start_button"
-                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz"
-                    app:layout_constraintTop_toTopOf="@+id/Cart_Quiz"
-                    app:layout_constraintEnd_toEndOf="@+id/Cart_Quiz"
-                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
-                    android:layout_height="40dp"
-                    android:src="@drawable/button"
-                    android:paddingStart="3dp"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/start_button"
-                    android:layout_width="40dp"
-                    />
-                <TextView android:layout_width="80dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="13dp"
-                    android:text="Древний мир: Императоры"
-                    app:layout_constraintBottom_toBottomOf="@+id/Cart_Quiz"
-                    app:layout_constraintStart_toStartOf="@id/Cart_Quiz" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ViewFlipper>
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="15dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/Top_Text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

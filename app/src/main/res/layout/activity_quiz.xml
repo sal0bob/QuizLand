@@ -55,14 +55,14 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quiz_head"
         android:layout_width="320dp"
-        android:layout_height="400dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/question_inf"
@@ -118,39 +118,30 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/answers_container"
             android:layout_marginTop="20dp"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/question"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:background="@drawable/quiz_bg"
-                android:minHeight="55dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:background="@drawable/letter_bg"
-                    android:textSize="15dp"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center"
-                    android:textColor="#5459BD"
-                    android:text="A"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"/>
-
-                <TextView
-                    android:textColor="@color/white"
-                    android:text="Юлий Цезарь"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/buttonColor"
+            android:text="Далее"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/answers_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="15dp"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
