@@ -21,7 +21,7 @@
     <ImageButton
         android:src="@drawable/check_blue"
         android:background="#806366F1"
-        android:id="@+id/applyButton"
+        android:id="@+id/btnPublish"
         android:layout_width="39dp"
         android:layout_height="31dp"
         android:layout_marginEnd="10dp"/>

@@ -24,11 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/back"
                 android:clickable="true"
                 android:src="@drawable/back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/close"
                 android:clickable="true"
                 android:enabled="true"
                 android:text="Назад"
@@ -76,6 +78,17 @@
             android:layout_height="410dp"
 
             >
+
+            <ImageButton
+                android:src="@drawable/junk"
+                android:backgroundTint="#80F44336"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/btnDeleteAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <ImageView
                 android:id="@+id/AvatarProfile"

@@ -10,6 +10,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:elevation="10dp"
         android:layout_width="250dp"
         android:layout_height="350dp"
@@ -32,12 +33,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/imageLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/puzzle" />
 
             <TextView
-
+                android:id="@+id/nameProject"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="QuizLand"
@@ -51,7 +53,7 @@
             android:id="@+id/login"
             android:layout_width="200dp"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +79,26 @@
         </LinearLayout>
 
         <EditText
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/Email"
+            android:id="@+id/etUsername"
+            android:autofillHints="username"
             android:paddingStart="10dp"
-            android:hint="Login"
+            android:hint="Имя пользователя"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/search_view_bg"
+            android:visibility="gone"/>
+
+        <EditText
+            android:inputType="textEmailAddress"
+            android:paddingStart="10dp"
+            android:hint="Логин"
+            android:autofillHints="emailAddress"
             android:id="@+id/Email"
             android:layout_width="180dp"
             android:layout_height="30dp"
@@ -89,9 +109,11 @@
             app:layout_constraintTop_toBottomOf="@id/login" />
 
         <EditText
+            android:inputType="textPassword"
             android:paddingStart="10dp"
-            android:hint="Password"
+            android:hint="Пароль"
             android:id="@+id/Password"
+            android:autofillHints="password"
             android:layout_width="180dp"
             android:layout_height="30dp"
             android:layout_marginTop="15dp"
@@ -103,7 +125,6 @@
 
 
         <Button
-
             android:backgroundTint="@color/buttonColor"
             android:id="@+id/btn_login"
             android:layout_width="200dp"
@@ -116,6 +137,7 @@
             app:layout_constraintTop_toBottomOf="@+id/Password" />
 
         <LinearLayout
+            android:id="@+id/home"
             android:gravity="center"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,10 +147,12 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/back"
                 android:src="@drawable/back_btn"
                 android:layout_width="12dp"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/backText"
                 android:textStyle="bold"
                 android:textColor="#5559CB"
                 android:textSize="11dp"

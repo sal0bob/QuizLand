@@ -249,6 +249,8 @@ public class QuizEditorActivity extends AppCompatActivity {
             }
 
 
+
+
             allQuizzesArray.put(currentQuiz);
 
 
@@ -297,6 +299,11 @@ public class QuizEditorActivity extends AppCompatActivity {
                 String questionText = questionObj.getString("question");
                 JSONArray answersArray = questionObj.getJSONArray("answers");
                 int correctIndex = questionObj.getInt("correctIndex");
+
+                if (correctIndex == -1) {
+                    Toast.makeText(this, "Выберите правильный ответ!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 LayoutInflater inflater = LayoutInflater.from(this);
                 View questionView = inflater.inflate(R.layout.item_question, questionsContainer, false);

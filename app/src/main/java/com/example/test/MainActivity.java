@@ -20,11 +20,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean isLogin = prefs.getBoolean("isLogin", false);
+
+        if (!isLogin) {
+            Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+
+
 
         Button buttonGoTest = findViewById(R.id.startGo);
         buttonGoTest.setOnClickListener(new View.OnClickListener() {
@@ -36,21 +47,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ImageView profilBtn = findViewById(R.id.imageAvatar);
-        profilBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        profilBtn.setOnClickListener(v -> {
 
-                if (isLogin == false) {
+            boolean isLoginNow = prefs.getBoolean("isLogin", false);
 
-                    Intent intent = new Intent(MainActivity.this, AuthActivity.class);
-                    startActivity(intent);
-
-                } else {
-                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                    startActivity(intent);
-                }
+            if (!isLoginNow) {
+                startActivity(new Intent(MainActivity.this, AuthActivity.class));
+            } else {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean isLogin = prefs.getBoolean("isLogin", false);
+
+        if (!isLogin) {
+            Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
 
