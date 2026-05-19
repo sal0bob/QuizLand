@@ -148,7 +148,7 @@ public class QuizEditorActivity extends AppCompatActivity {
             tvNumber.setOnClickListener(v -> {
                 selectedQuestionIndex = index;
                 scrollToQuestion(index);
-                updateQuestionNumbers(); // обновляем подсветку
+                updateQuestionNumbers();
             });
 
             questionNumbersContainer.addView(numberView);

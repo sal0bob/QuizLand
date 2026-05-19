@@ -115,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
                 new androidx.appcompat.app.AlertDialog.Builder(this)
                         .setTitle("Удаление аккаунта")
                         .setMessage("Вы уверены, что хотите удалить аккаунт?\n\nВсе данные и созданные квизы будут удалены навсегда.")
-                        .setPositiveButton("Удалить", null) // пока null
+                        .setPositiveButton("Удалить", null)
                         .setNegativeButton("Отмена", (d, which) -> d.dismiss())
                         .setCancelable(false)
                         .create();
@@ -210,21 +210,18 @@ public class ProfileActivity extends AppCompatActivity {
 
                 TextView QuizTitle = quizView.findViewById(R.id.quizTitle);
                 ImageButton btnDeleteQuiz = quizView.findViewById(R.id.btnDeleteQuiz);
-                ImageButton btnPublish = quizView.findViewById(R.id.btnPublish); // <-- галочка
+                ImageButton btnPublish = quizView.findViewById(R.id.btnPublish);
 
                 QuizTitle.setText(title);
 
-                // открыть квиз
                 QuizTitle.setOnClickListener(v -> {
                     Intent intent = new Intent(ProfileActivity.this, QuizEditorActivity.class);
                     intent.putExtra("quizId", quizId);
                     startActivity(intent);
                 });
 
-                // удалить квиз
                 btnDeleteQuiz.setOnClickListener(v -> deleteQuiz(quizId));
 
-                // опубликовать квиз
                 btnPublish.setOnClickListener(v -> {
                     Intent intent = new Intent(ProfileActivity.this, PublishQuizActivity.class);
                     intent.putExtra("quizId", quizId);
@@ -363,17 +360,14 @@ public class ProfileActivity extends AppCompatActivity {
 
             quizTitle.setText(quiz.title != null ? quiz.title : "Квиз без названия");
 
-            // Серверный квиз уже опубликован, поэтому галочку скрываем
             btnPublish.setVisibility(View.GONE);
 
-            // Открыть серверный квиз для прохождения
             quizTitle.setOnClickListener(v -> {
                 Intent intent = new Intent(ProfileActivity.this, QuizActivity.class);
                 intent.putExtra("QUIZ_ID", quiz.id);
                 startActivity(intent);
             });
 
-            // Удалить серверный квиз
             btnDeleteQuiz.setOnClickListener(v -> {
                 if (quiz.id != null) {
                     deletePublishedQuiz(quiz.id);
@@ -427,7 +421,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                     userName.setText(user.username);
 
-                    // квизы пользователя с сервера
                     if (user.quizzes != null) {
                         showUserQuizzesFromServer(user.quizzes);
                     }

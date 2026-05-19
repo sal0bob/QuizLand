@@ -25,7 +25,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Сохранение данных пользователя
     public void saveUser(long id, String username, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -35,7 +34,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insertWithOnConflict("user_session", null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    // Проверка, есть ли активная сессия
     public boolean isUserLoggedIn() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM user_session", null);
