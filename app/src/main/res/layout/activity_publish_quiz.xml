@@ -94,7 +94,7 @@
             android:background="@drawable/title_bg"
             android:padding="25dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/puzzle" />
+            android:src="@drawable/photo" />
 
         <Button
             android:id="@+id/chooseImageButton"
@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_marginTop="18dp"
-            android:background="@drawable/search_view_bg"
+            android:background="@drawable/edit_text_bg"
             android:gravity="top"
             android:padding="12dp">
 

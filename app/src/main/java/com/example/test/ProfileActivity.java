@@ -34,11 +34,17 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private TextView userLevel;
+    private TextView userXp;
+
     private boolean isLoadingProfile = false;
 
     private static final String PREF_NAME = "QUIZ_STORAGE";
     private static final String KEY_QUIZZES = "QUIZZES_LIST";
 
+
+    private TextView allGameCell;
+    private TextView winCell;
     private LinearLayout quizzesContainer;
 
     private TextView userName;
@@ -52,8 +58,16 @@ public class ProfileActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
 
+        allGameCell = findViewById(R.id.numberAllGame);
+        winCell = findViewById(R.id.procent);
+
 
         userName = findViewById(R.id.UserName);
+
+        userLevel = findViewById(R.id.userLevel);
+        userXp = findViewById(R.id.userXp);
+
+        updateLevelInfo();
 
         Intent intent = getIntent();
 
@@ -108,6 +122,23 @@ public class ProfileActivity extends AppCompatActivity {
         refreshQuizzesList();
 
     }
+
+    private void updateLevelInfo() {
+        int level = LevelManager.getLevel(this);
+        int xp = LevelManager.getXp(this);
+        int xpToNext = LevelManager.getXpToNextLevel(level);
+
+        userLevel.setText("Уровень " + level);
+        userXp.setText(xp + " / " + xpToNext + " XP");
+    }
+    private void updateStatsInfo() {
+        int gamesStarted = StatsManager.getGamesStarted(this);
+        int winPercent = StatsManager.getWinPercent(this);
+
+        allGameCell.setText(String.valueOf(gamesStarted));
+        winCell.setText(winPercent + "%");
+    }
+
 
     private void showDeleteAccountDialog() {
 
@@ -450,7 +481,11 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        updateLevelInfo();
+
         refreshQuizzesList();
+
+        updateStatsInfo();
 
         int countCreate = preferences.getInt("QUIZ_COUNT", 0);
         TextView count = findViewById(R.id.num);

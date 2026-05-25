@@ -38,7 +38,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/result_card"
         android:layout_width="320dp"
-        android:layout_height="430dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/title_bg"
         android:elevation="10dp"
         android:padding="24dp"
@@ -58,7 +58,7 @@
             android:paddingBottom="4dp"
             android:text="Результат"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,12 +68,12 @@
             android:id="@+id/resultTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="25dp"
             android:gravity="center"
             android:maxLines="2"
             android:text="Название квиза"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,7 @@
             android:gravity="center"
             android:text="0 / 0"
             android:textColor="#F59E0B"
-            android:textSize="48sp"
+            android:textSize="48dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,14 +97,40 @@
             android:id="@+id/resultPercent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:text="0%"
             android:textColor="#94A3B8"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultScore" />
+
+        <TextView
+            android:layout_marginTop="15dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resultPercent"
+            android:id="@+id/resultXp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+0 XP"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resultXp"
+            android:id="@+id/resultLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Уровень 1"
+            android:textSize="18dp"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/resultMessage"
@@ -115,20 +141,21 @@
             android:lineSpacingMultiplier="1.2"
             android:text="Отличный результат!"
             android:textColor="#94A3B8"
-            android:textSize="15sp"
+            android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resultPercent" />
+            app:layout_constraintTop_toBottomOf="@id/resultLevel" />
 
         <Button
             android:id="@+id/backToMainButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/buttonColor"
             android:text="На главный экран"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:textSize="17dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultMessage" />

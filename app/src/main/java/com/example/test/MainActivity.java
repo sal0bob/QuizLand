@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +29,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private QuizAdapter quizAdapter;
+    private final List<QuizResponse> quizList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,33 @@ public class MainActivity extends AppCompatActivity {
         setupSearchView();
 
         Button buttonGoTest = findViewById(R.id.startGo);
+
         buttonGoTest.setOnClickListener(v -> {
+            if (quizList == null || quizList.isEmpty()) {
+                Toast.makeText(
+                        MainActivity.this,
+                        "Квизы ещё загружаются или список пуст",
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
+
+            Random random = new Random();
+            int randomIndex = random.nextInt(quizList.size());
+
+            QuizResponse randomQuiz = quizList.get(randomIndex);
+
+            if (randomQuiz.id == null) {
+                Toast.makeText(
+                        MainActivity.this,
+                        "Ошибка: id квиза не найден",
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
+
             Intent intent = new Intent(MainActivity.this, QuizActivity.class);
+            intent.putExtra("QUIZ_ID", randomQuiz.id);
             startActivity(intent);
         });
 
@@ -111,13 +141,16 @@ public class MainActivity extends AppCompatActivity {
                     QuizPageListResponse page = response.body();
 
                     if (page.content != null) {
-                        Log.d("QUIZ_LIST", "SIZE: " + page.content.size());
+                        quizList.clear();
+                        quizList.addAll(page.content);
 
-                        for (QuizResponse quiz : page.content) {
+                        Log.d("QUIZ_LIST", "SIZE: " + quizList.size());
+
+                        for (QuizResponse quiz : quizList) {
                             Log.d("QUIZ_LIST", "QUIZ: " + quiz.id + " | " + quiz.title);
                         }
 
-                        quizAdapter.setQuizzes(page.content);
+                        quizAdapter.setQuizzes(quizList);
                     } else {
                         Log.d("QUIZ_LIST", "CONTENT IS NULL");
                         Toast.makeText(MainActivity.this, "Список квизов пуст", Toast.LENGTH_SHORT).show();

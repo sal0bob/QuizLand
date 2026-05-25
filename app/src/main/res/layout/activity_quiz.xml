@@ -40,19 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <ImageView
 
-            android:src="@drawable/timer"
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_marginEnd="20dp"
-            android:textColor="#F59E0B"
-            android:id="@+id/time_view"
-            android:text="00:11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -90,7 +78,7 @@
             <TextView
                 android:textSize="13dp"
                 android:textColor="#94A3B8"
-                android:text="Категория: "
+                android:text="название: "
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 

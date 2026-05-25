@@ -53,7 +53,6 @@
             android:id="@+id/login"
             android:layout_width="200dp"
             android:layout_height="40dp"
-            android:layout_marginTop="5dp"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,10 +88,9 @@
             android:hint="Имя пользователя"
             android:layout_width="180dp"
             android:layout_height="30dp"
-            android:layout_marginTop="50dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/search_view_bg"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@id/login"
+            android:background="@drawable/search_view_bg" />
 
         <EditText
             android:inputType="textEmailAddress"
@@ -106,7 +104,7 @@
             android:background="@drawable/search_view_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login" />
+            app:layout_constraintTop_toBottomOf="@id/etUsername" />
 
         <EditText
             android:inputType="textPassword"
@@ -146,19 +144,27 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/back"
-                android:src="@drawable/back_btn"
-                android:layout_width="12dp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/backText"
-                android:textStyle="bold"
-                android:textColor="#5559CB"
-                android:textSize="11dp"
-                android:text="На главную"
+            <LinearLayout
+                android:id="@+id/buttonHome"
+                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:src="@drawable/back_btn"
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/backText"
+                    android:textStyle="bold"
+                    android:textColor="#5559CB"
+                    android:textSize="11dp"
+                    android:text="На главную"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

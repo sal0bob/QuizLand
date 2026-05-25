@@ -41,6 +41,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private int currentQuestionIndex = 0;
     private int correctAnswers = 0;
+    private boolean gameCounted = false;
 
     private String selectedAnswer = null;
     private LinearLayout selectedAnswerLayout = null;
@@ -53,7 +54,6 @@ public class QuizActivity extends AppCompatActivity {
 
         closeText = findViewById(R.id.close);
         closeImage = findViewById(R.id.closeImage);
-        timeView = findViewById(R.id.time_view);
         numQuestion = findViewById(R.id.num_question);
         quizCategory = findViewById(R.id.quiz_category);
         questionText = findViewById(R.id.question);
@@ -87,6 +87,11 @@ public class QuizActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     quiz = response.body();
 
+                    if (!gameCounted) {
+                        StatsManager.incrementGamesStarted(QuizActivity.this);
+                        gameCounted = true;
+                    }
+
                     if (quiz.pages == null || quiz.pages.isEmpty()) {
                         Toast.makeText(QuizActivity.this, "В квизе нет вопросов", Toast.LENGTH_LONG).show();
                         finish();
@@ -95,7 +100,6 @@ public class QuizActivity extends AppCompatActivity {
 
                     pages = quiz.pages;
                     quizCategory.setText(quiz.title != null ? quiz.title : "Квиз");
-                    timeView.setText("00:00");
 
                     showQuestion();
                 } else {

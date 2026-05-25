@@ -19,6 +19,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private TextView btnLogin, btnRegister;
     private Button btnAction;
+    private LinearLayout buttonHome;
 
     private EditText etUsername, etEmail, etPassword;
 
@@ -37,6 +38,8 @@ public class AuthActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         btnAction = findViewById(R.id.btn_login);
 
+        buttonHome= findViewById(R.id.buttonHome);
+
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.Email);
         etPassword = findViewById(R.id.Password);
@@ -47,6 +50,7 @@ public class AuthActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> setLoginMode());
         btnRegister.setOnClickListener(v -> setRegisterMode());
+        buttonHome.setOnClickListener( view -> {setContentView(R.layout.activity_main);});
 
         btnAction.setOnClickListener(v -> {
             if (isRegisterMode) {
@@ -57,10 +61,9 @@ public class AuthActivity extends AppCompatActivity {
         });
     }
 
+
     private void setLoginMode() {
         isRegisterMode = false;
-        etUsername.setVisibility(View.GONE);
-        etEmail.setVisibility(View.VISIBLE);
         btnAction.setText("Войти");
     }
 
@@ -137,6 +140,7 @@ public class AuthActivity extends AppCompatActivity {
     private void loginUser() {
 
         String username = etUsername.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         if (username.isEmpty() || password.isEmpty()) {

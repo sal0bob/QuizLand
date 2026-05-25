@@ -14,6 +14,9 @@ public class ResultActivity extends AppCompatActivity {
     private TextView resultScore;
     private TextView resultPercent;
     private TextView resultMessage;
+    private TextView resultXp;
+    private TextView resultLevel;
+
     private Button backToMainButton;
 
     @Override
@@ -26,6 +29,8 @@ public class ResultActivity extends AppCompatActivity {
         resultScore = findViewById(R.id.resultScore);
         resultPercent = findViewById(R.id.resultPercent);
         resultMessage = findViewById(R.id.resultMessage);
+        resultXp = findViewById(R.id.resultXp);
+        resultLevel = findViewById(R.id.resultLevel);
         backToMainButton = findViewById(R.id.backToMainButton);
 
         int correctAnswers = getIntent().getIntExtra("CORRECT_ANSWERS", 0);
@@ -37,15 +42,19 @@ public class ResultActivity extends AppCompatActivity {
         }
 
         resultTitle.setText(quizTitle);
-
         resultScore.setText(correctAnswers + " / " + totalQuestions);
 
         int percent = 0;
+
         if (totalQuestions > 0) {
             percent = Math.round((correctAnswers * 100f) / totalQuestions);
         }
 
         resultPercent.setText(percent + "%");
+
+        if (percent == 100) {
+            StatsManager.incrementPerfectWins(this);
+        }
 
         if (percent >= 90) {
             resultMessage.setText("Отличный результат! Ты почти эксперт!");
@@ -56,6 +65,41 @@ public class ResultActivity extends AppCompatActivity {
         } else {
             resultMessage.setText("Не переживай, попробуй пройти ещё раз.");
         }
+
+        int playersWithPerfectScore = 0;
+        int totalPlayers = 0;
+
+        int earnedXp = LevelManager.calculateEarnedXp(
+                correctAnswers,
+                totalQuestions,
+                playersWithPerfectScore,
+                totalPlayers
+        );
+
+        LevelManager.LevelResult levelResult = LevelManager.addXp(this, earnedXp);
+
+        resultXp.setText("+" + levelResult.earnedXp + " XP");
+
+        if (levelResult.isLevelUp()) {
+            resultLevel.setText(
+                    "Новый уровень! "
+                            + levelResult.oldLevel
+                            + " → "
+                            + levelResult.newLevel
+            );
+        } else {
+            resultLevel.setText(
+                    "Уровень "
+                            + levelResult.newLevel
+                            + " • "
+                            + levelResult.currentXp
+                            + " / "
+                            + levelResult.xpToNextLevel
+                            + " XP"
+            );
+        }
+
+
 
         backToMainButton.setOnClickListener(v -> {
             Intent intent = new Intent(ResultActivity.this, MainActivity.class);
