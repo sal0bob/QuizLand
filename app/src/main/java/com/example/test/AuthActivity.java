@@ -74,18 +74,6 @@ public class AuthActivity extends AppCompatActivity {
         etEmail.setVisibility(View.VISIBLE);
         btnAction.setText("Зарегистрироваться");
 
-        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
-
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(constraintLayout);
-
-        int marginInDp = 60;
-        float scale = getResources().getDisplayMetrics().density;
-        int marginInPx = (int) (marginInDp * scale + 0.5f);
-
-        constraintSet.setMargin(R.id.Email, ConstraintSet.TOP, marginInPx);
-
-        constraintSet.applyTo(constraintLayout);
     }
 
     private void registerUser() {
